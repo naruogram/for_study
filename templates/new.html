@@ -4,13 +4,17 @@
     <h1>授業資料自動取得ツール(ゼミ選考用)</h1>
     <form action ="/send" method = "POST">
     <div>
-      <label for="user_id">user_id</label>
+      <label for="user_id">Luna ID</label>
       <br><input type="text" id="user_id" name="user_id"><br>
     </div>
     <div>
-      <label for="password">user_password</label>
+      <label for="password">Lunaパスワード</label>
       <br><input type="password" id="password" name="password"><br>
     </div>
+    <div>
+      <label for="subject">取得したい科目</label>
+      <br><input type="text" id="subject" name="subject"><br>
+    </div> 
     <br><input type="submit" value="送信する"><br>
   </form>
 </body>

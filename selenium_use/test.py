@@ -13,6 +13,7 @@ from flask_test import *
 def selenium():
   user_id = request.form.get("user_id")
   password = request.form.get("password")
+  subject= request.form.get("subject")
   options = webdriver.ChromeOptions()
   options.add_experimental_option("prefs", {
     "download.default_directory": "〜\kwansei_file"
@@ -36,7 +37,7 @@ def selenium():
   element_2021 = driver.find_element_by_link_text("2021")
   element_2021.click()
 # ここまでが課題ページまで
-  homeworks = ["スペイン語IV"]
+  homeworks = [subject]
   i=0;
   if not i==int(len(homeworks)):
    for search in homeworks:
@@ -64,24 +65,40 @@ def selenium():
       time.sleep(3)
      element_title=driver.find_element_by_partial_link_text("お知らせ")
      element_title.click()
-     dlList.append(element_title.get_attribute("href"))
-     for download in pdfList:
-       if download == int(len(dlList)):
+     info=driver.find_elements_by_xpath("//div[@class='vtbegenerated']/p/*[@href]")
+     if len(info)>0:
+        #  お知らせに資料がある時
+      dlList.append(info.get_attribute("href"))
+      for download in dlList:
+        if download == int(len(dlList)):
           break
-       driver.get(download)
-       driver.execute_script('window.print();')
-       time.sleep(5)
-       driver.back()
+        driver.get(download)
+        driver.execute_script('window.print();')
+        time.sleep(5)
+        driver.back()
+     else:
+         #  お知らせに資料がないとき
+      driver.back()
+      driver.quit()
+        
     else:
+        # 例外処理(課題ページがない時)
      driver.back()
      element_title=driver.find_element_by_partial_link_text("お知らせ")
      element_title.click()
-     dlList.append(element_title.get_attribute("href"))
-     for download in pdfList:
-      if download == int(len(dlList)):
+     info=driver.find_elements_by_xpath("//div[@class='vtbegenerated']/p/*[@href]")
+     if len(info)>0:
+        #  お知らせに資料がある時
+      dlList.append(info.get_attribute("href"))
+      for download in dlList:
+        if download == int(len(dlList)):
           break
-      driver.get(download)
-      driver.execute_script('window.print();')
-      time.sleep(5)
+        driver.get(download)
+        driver.execute_script('window.print();')
+        time.sleep(5)
+        driver.back()
+     else:
+         #  お知らせに資料がないとき
       driver.back()
+      driver.quit()
     
