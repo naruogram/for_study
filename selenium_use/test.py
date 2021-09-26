@@ -42,22 +42,46 @@ def selenium():
    for search in homeworks:
     element_search=driver.find_element_by_partial_link_text(search)
     element_search.click()
-    element_homework = driver.find_element_by_link_text("教材・課題・テスト")
-    element_homework.click()
+    element_homework = driver.find_element_by_xpath("//ul[@class='courseMenu']/li[2]/*[@href]").get_attribute("href")
+    driver.get(element_homework)
     pdfList=[]
+    dlList=[]
+#    if len(driver.find_element_by_xpath("//ul[@class='attachments clearfix']/li/*[@href]")> 0):
     links = driver.find_elements_by_xpath("//ul[@class='attachments clearfix']/li/*[@href]")
-   for elem in links:
-     if elem == int(len(links)):
-        break
-     print(elem.get_attribute("href"))
-     pdfList.append(elem.get_attribute("href"))
-   for download in pdfList:
-     if download == int(len(pdfList)):
-        break
-     driver.get(download)
-     driver.execute_script('window.print();')
-     time.sleep(5)
+    if len(links)>0:
+     for elem in links:
+      if elem == int(len(links)):
+       break
+      print(elem.get_attribute("href"))
+      pdfList.append(elem.get_attribute("href"))
+     for download in pdfList:
+      if download == int(len(pdfList)):
+          break
+      driver.get(download)
+      driver.execute_script('window.print();')
+      time.sleep(5)
+      driver.back()
+      time.sleep(3)
+     element_title=driver.find_element_by_partial_link_text("お知らせ")
+     element_title.click()
+     dlList.append(element_title.get_attribute("href"))
+     for download in pdfList:
+       if download == int(len(dlList)):
+          break
+       driver.get(download)
+       driver.execute_script('window.print();')
+       time.sleep(5)
+       driver.back()
+    else:
      driver.back()
-  i+=1
-  if i==int(len(homeworks)):
-    driver.quit()
+     element_title=driver.find_element_by_partial_link_text("お知らせ")
+     element_title.click()
+     dlList.append(element_title.get_attribute("href"))
+     for download in pdfList:
+      if download == int(len(dlList)):
+          break
+      driver.get(download)
+      driver.execute_script('window.print();')
+      time.sleep(5)
+      driver.back()
+    
