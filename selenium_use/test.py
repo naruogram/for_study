@@ -74,7 +74,7 @@ def selenium():
           break
         driver.get(download)
         driver.execute_script('window.print();')
-        time.sleep(5)
+        time.sleep(3)
         driver.back()
      else:
          #  お知らせに資料がないとき
